@@ -60,10 +60,16 @@ if( !class_exists( 'Elementor_Integration_Element' ) ){
       public function enqueue_scripts(){
 
          foreach ( glob( tt_elements()->plugin_path( 'assets/js/' ) . '*.js' ) as $jsfile ) {
+             $jsfile_name = basename( $jsfile );
 
-            $jsfile_name = basename( $jsfile );
+             var_dump( $jsfile_name );
 
-            wp_enqueue_script(
+             if( $jsfile_name == 'tt-elements-frontend.js' ){
+                continue;
+             }
+
+
+             wp_enqueue_script(
                'tt-' . $jsfile_name,
                tt_elements()->plugin_url( 'assets/js/' . $jsfile_name ),
                array( 'jquery', 'elementor-frontend' ),

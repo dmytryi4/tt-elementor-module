@@ -3,12 +3,12 @@
 
 	$swiper_settings = array(
 	    'direction' => $settings['direction'],
-        'pagination' => filter_var( $settings['show_pagination'] ),
+        'pagination' => filter_var( $settings['show_pagination'], FILTER_VALIDATE_BOOLEAN ),
         'pagination-type' => $settings['pagination_type'],
-        'navigation' => filter_var( $settings['show_navigation'] ),
-        'hide-on-click' => filter_var( $settings['hide_on_click'] ),
-        'loop' => filter_var( $settings['loop'] ),
-        'autoplay' => $settings['autoplay'],
+        'navigation' => filter_var( $settings['show_navigation'], FILTER_VALIDATE_BOOLEAN ),
+        'hide-on-click' => filter_var( $settings['hide_on_click'], FILTER_VALIDATE_BOOLEAN ),
+        'loop' => filter_var( $settings['loop'], FILTER_VALIDATE_BOOLEAN ),
+        'autoplay' => filter_var( $settings['autoplay'], FILTER_VALIDATE_BOOLEAN ),
         'delay' => $settings['delay'],
         'simulate-touch' => "false",
         'slide-effect' => $settings['effect'],

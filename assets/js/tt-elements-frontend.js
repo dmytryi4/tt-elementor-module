@@ -7,6 +7,7 @@
     	init: function() {
     		let widgets = {
     			'tt-swiper-module.default' : TT_Modules.widgetSwiperSlider,
+                'tt-camera-module.default' : TT_Modules.widgetCameraSlider
     		};
 
     		$.each( widgets, function( widget, callback ) {
@@ -42,11 +43,11 @@
 	    	settings = {
 	    		direction: options['direction'],
 	    		effect: options['slide-effect'],
-	    		autoplay: ( options['autoplay'] === 'yes') ? {
+	    		autoplay: options['autoplay'] ? {
 	    			delay: options['delay']
 	    		} : '',
-	    		loop: (options['loop'] == 'yes')?true:false,
-	    		pagination: ( options['pagination'] === 'yes') ? {
+	    		loop: options['loop'],
+	    		pagination: options['pagination']? {
 			        el: pag,
 			        type: options['pagination-type'],
 			        clickable: true,
@@ -65,10 +66,10 @@
 			          return '<span class="' + className + '">' + (index + 1) + '</span>';
 			        }
 			    } : '',
-			    navigation: ( options['navigation'] === 'yes') ? {
+			    navigation: options['navigation']  ? {
 			      nextEl: next,
 			      prevEl: prev,
-			      hideOnClick: ( options['hide-on-click'] === 'yes') ? true : false
+			      hideOnClick: options['hide-on-click']
 			    } : '',
 			    breakpoints: {
 			    	1023: {
@@ -79,7 +80,35 @@
 	    	};
 
 	    	swiper = new Swiper( $target, settings );
-    	}
+    	},
+        widgetCameraSlider: function( $scope ){
+
+            var camera_wrap = $scope.find( '.camera_wrap' ),
+                $options = camera_wrap.data('settings'),
+                $defaults = {
+                    autoAdvance: false,
+                    height: '40.91796875%',
+                    minHeight: '725px',
+                    pagination: true,
+                    thumbnails: false,
+                    playPause: false,
+                    hover: false,
+                    loader: 'none',
+                    navigation: true,
+                    navigationHover: true,
+                    mobileNavHover: false,
+                    time: 4000,
+                    transPeriod: 1000,
+                    fx: 'bottomLeftTopRight'
+                };
+            console.log( $options );
+
+            $options = $.extend({}, $defaults, $options);
+
+
+
+            camera_wrap.camera($options);
+        }
     };
 
     $( window ).on( 'elementor/frontend/init', TT_Modules.init );
