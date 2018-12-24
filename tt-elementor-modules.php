@@ -2,7 +2,7 @@
 /*
 Plugin Name: TT Elementor Module
 Plugin URI: 
-Description: Add modules to Elementor plugin 
+Description: Add package modules to Wordpress Elementor plugin
 Version: 0.1
 Author: Dmytro Podolianskyi
 Author URI: https://github.com/dmytryi4
