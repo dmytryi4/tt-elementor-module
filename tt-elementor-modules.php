@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: TT Elementor Module
+Plugin Name: TT Elementor Modules
 Plugin URI: 
 Description: Add package modules to Wordpress Elementor plugin
 Version: 0.1
@@ -19,7 +19,9 @@ if( ! class_exists( 'TT_Elements' ) ){
 	 * 
 	 */
 	class TT_Elements {
-		
+
+	    const PLUGIN_NAME = 'TT Elementor Modules';
+
 		/**
 		 * A reference to an instance of this class.
 		 *
@@ -60,9 +62,7 @@ if( ! class_exists( 'TT_Elements' ) ){
 			// Load modules.
 			add_action( 'init', array( $this, 'init' ), -999 );
 
-			// Register activation and deactivation hook.
-			register_activation_hook( __FILE__, array( $this, 'activation' ) );
-			register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
+            add_action( 'plugins_loaded', array ( $this, 'plugins_loaded' ) );
 		}
 
 		/**
@@ -75,6 +75,13 @@ if( ! class_exists( 'TT_Elements' ) ){
 			get_elementor_create_element()->init();
 		}
 
+		public function plugins_loaded(){
+            // Check if Elementor installed and activated
+            if ( ! did_action( 'elementor/loaded' ) ) {
+                add_action( 'admin_notices', [ $this, 'admin_notice_missing_main_plugin' ] );
+                return;
+            }
+        }
 		/**
 		 * Returns path to file or dir inside plugin folder
 		 *
@@ -128,24 +135,20 @@ if( ! class_exists( 'TT_Elements' ) ){
 			}
 		}
 
-		/**
-		 * activation plugin hook function
-		 * @since  0.1
-		 * @access public
-		 * @return none
-		 */
-		public function activation(){
 
-		}
+        public function admin_notice_missing_main_plugin() {
 
-		/**
-		 * deactivation plugin hook function
-		 * @since  0.1
-		 * @return none
-		 */
-		public function deactivation(){
+            if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
 
-		}
+            $message = sprintf(
+                esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'elementor-test-extension' ),
+                '<strong>' . esc_html__( self::PLUGIN_NAME ) . '</strong>',
+                '<strong>' . esc_html__( 'Elementor', 'elementor-test-extension' ) . '</strong>'
+            );
+
+            printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
+
+        }
 
 		/**
 		 * Returns the instance.

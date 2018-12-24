@@ -2,10 +2,10 @@
 
 	"use strict";
 
-    var TT_Modules = {
+    let TT_Modules = {
 
     	init: function() {
-    		var widgets = {
+    		let widgets = {
     			'tt-swiper-module.default' : TT_Modules.widgetSwiperSlider,
     		};
 
@@ -16,18 +16,19 @@
 
     	widgetSwiperSlider: function( $scope ){
 
-    		var $target 	= $scope.find( '.tt-swiper-module' ),
-    			swiper  	= null,
-    			pag 		= $target.find(".swiper-pagination"),
-		        next 		= $target.find(".swiper-button-next"),
-		        prev 		= $target.find(".swiper-button-prev"),
-		        bar 		= $target.find(".swiper-scrollbar"),
-    			settings    = {},
-    			url;
+            let $target 	= $scope.find( '.tt-swiper-module' ),
+                swiper  	= null,
+                options		= $target.data('swiper-options'),
+                pag 		= $target.find(".swiper-pagination"),
+                next 		= $target.find(".swiper-button-next"),
+                prev 		= $target.find(".swiper-button-prev"),
+                bar 		= $target.find(".swiper-scrollbar"),
+                url,
+                settings    = {};
 
     		if ( ! $target.length ) {
-    			return;
-    		}
+                return;
+            }
 
 			$('.swiper-slide', $target ).each(function(index, value){
 	    		if (url = $(value).attr("data-slide-bg")) {
@@ -38,16 +39,16 @@
 	    		  });
 	    		}
 	    	});
-
 	    	settings = {
-	    		effect: $target.data('slide-effect'),
-	    		autoplay: ( $target.data('autoplay') === 'yes') ? {
-	    			delay: $target.data('delay')
+	    		direction: options['direction'],
+	    		effect: options['slide-effect'],
+	    		autoplay: ( options['autoplay'] === 'yes') ? {
+	    			delay: options['delay']
 	    		} : '',
-	    		loop: ( $target.data('loop') === 'yes') ? true : false,
-	    		pagination: ( $target.data('pagination') === 'yes') ? {
+	    		loop: (options['loop'] == 'yes')?true:false,
+	    		pagination: ( options['pagination'] === 'yes') ? {
 			        el: pag,
-			        type: $target.data('pagination-type'),
+			        type: options['pagination-type'],
 			        clickable: true,
 			        renderCustom: function (swiper, current, total) {
 			            return current + ' of ' + total;
@@ -64,10 +65,10 @@
 			          return '<span class="' + className + '">' + (index + 1) + '</span>';
 			        }
 			    } : '',
-			    navigation: ( $target.data('navigation') === 'yes') ? {
+			    navigation: ( options['navigation'] === 'yes') ? {
 			      nextEl: next,
 			      prevEl: prev,
-			      hideOnClick: ( $target.data('hide-on-click') === 'yes') ? true : false
+			      hideOnClick: ( options['hide-on-click'] === 'yes') ? true : false
 			    } : '',
 			    breakpoints: {
 			    	1023: {
@@ -75,7 +76,7 @@
 			    	767: {
 			    	}
 			    }
-	    	}
+	    	};
 
 	    	swiper = new Swiper( $target, settings );
     	}
