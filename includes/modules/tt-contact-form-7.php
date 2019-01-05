@@ -31,7 +31,7 @@ class TT_Contact_Form_7 extends Widget_Base {
       $this->add_control(
            'select_form',
            [
-               'label' => __( 'Select Form', 'plugin-domain' ),
+               'label' => __( 'Select Form', 'tt-elementor-modules' ),
                'type' => Controls_Manager::SELECT2,
                'options' => $this->get_availbale_forms(),
                'default' => '',

@@ -13,7 +13,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die();
 }
 
-
 if( ! class_exists( 'TT_Elements' ) ){
 	/**
 	 * 
@@ -71,9 +70,12 @@ if( ! class_exists( 'TT_Elements' ) ){
 		 * @access public
 		 */
 		public function init(){
-			require $this->plugin_path('includes/classes/class-elementor-integration-element.php');
-			get_elementor_create_element()->init();
-		}
+            require $this->plugin_path('includes/classes/class-elementor-module-settings.php');
+            get_elementor_settings_module()->init();
+
+            require $this->plugin_path('includes/classes/class-elementor-integration-element.php');
+            get_elementor_create_element()->init();
+        }
 
 		public function plugins_loaded(){
             // Check if Elementor installed and activated
@@ -135,7 +137,6 @@ if( ! class_exists( 'TT_Elements' ) ){
 			}
 		}
 
-
         public function admin_notice_missing_main_plugin() {
 
             if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
@@ -147,7 +148,6 @@ if( ! class_exists( 'TT_Elements' ) ){
             );
 
             printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
-
         }
 
 		/**

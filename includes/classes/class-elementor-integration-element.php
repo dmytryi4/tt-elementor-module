@@ -113,4 +113,3 @@ function get_elementor_create_element(){
    return Elementor_Integration_Element::get_instance();
 }
 
-?>
