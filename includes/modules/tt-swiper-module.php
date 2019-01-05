@@ -17,6 +17,10 @@ class TT_Swiper_Module extends Widget_Base {
         return 'eicon-slideshow';
    }
 
+    public function get_categories() {
+        return [ 'tt-modules' ];
+    }
+
    protected function _register_controls() {
 
         $this->start_controls_section(

@@ -19,8 +19,17 @@ if( !class_exists( 'Elementor_Integration_Element' ) ){
          add_action( 'elementor/widgets/widgets_registered', array( $this, 'widgets_registered' ) );
          add_action( 'elementor/frontend/before_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
          add_action( 'elementor/editor/after_enqueue_styles', array( $this, 'editor_styles' ) );
+         add_action( 'elementor/elements/categories_registered',  array( $this, 'add_elementor_widget_categories' ) );
 
       }
+
+       public function add_elementor_widget_categories( $elements_manager ) {
+           $elements_manager->add_category(
+               'tt-modules',
+               [ 'title' => __( 'TemplateTuning', 'tt-elementor-modules' ), ]
+           );
+       }
+
 
       public function widgets_registered() {
          if(defined('ELEMENTOR_PATH') && class_exists('Elementor\Widget_Base')){
@@ -32,8 +41,6 @@ if( !class_exists( 'Elementor_Integration_Element' ) ){
          foreach ( glob( tt_elements()->plugin_path( 'includes/modules/' ) . '*.php' ) as $file ) {
             $this->required_module( $file );
          }
-
-
       }
 
       private function required_module( $file ){
@@ -62,12 +69,9 @@ if( !class_exists( 'Elementor_Integration_Element' ) ){
          foreach ( glob( tt_elements()->plugin_path( 'assets/js/' ) . '*.js' ) as $jsfile ) {
              $jsfile_name = basename( $jsfile );
 
-             var_dump( $jsfile_name );
-
              if( $jsfile_name == 'tt-elements-frontend.js' ){
                 continue;
              }
-
 
              wp_enqueue_script(
                'tt-' . $jsfile_name,
@@ -76,8 +80,6 @@ if( !class_exists( 'Elementor_Integration_Element' ) ){
                '',
                true
             );
-
-
          }
 
          foreach ( glob( tt_elements()->plugin_path( 'assets/css/' ) . '*.css' ) as $cssfile ) {
